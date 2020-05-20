@@ -5,6 +5,7 @@ import ds.bplus.util.InvalidBTreeStateException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -15,8 +16,8 @@ import java.util.LinkedList;
 class TreeLeaf extends TreeNode {
     private long nextPagePointer;           // pointer to next leaf in the list
     private long prevPagePointer;           // pointer to prev leaf in the list
-    private LinkedList<String> valueList;   // satellite data list
-    private LinkedList<Long> overflowList;  // overflow pointer list
+    private ArrayList<String> valueList;   // satellite data list
+    private ArrayList<Long> overflowList;  // overflow pointer list
 
     /**
      * Constructor for our Internal node
@@ -34,36 +35,36 @@ class TreeLeaf extends TreeNode {
                     "root with non-null next pointer");}
         this.nextPagePointer = nextPagePointer;
         this.prevPagePointer = prevPagePointer;
-        this.overflowList = new LinkedList<>();
-        this.valueList = new LinkedList<>();
+        this.overflowList = new ArrayList<>();
+        this.valueList = new ArrayList<>();
     }
 
     void addToOverflowList(int index, long value)
         {overflowList.add(index, value);}
 
     void addLastToOverflowList(long value)
-        {overflowList.addLast(value);}
+        {overflowList.add(value);}
 
     void addLastToValueList(String value)
-        {valueList.addLast(value);}
+        {valueList.add(value);}
 
     long getOverflowPointerAt(int index)
         {return overflowList.get(index);}
 
     void pushToOverflowList(long overflowPointer)
-        {overflowList.push(overflowPointer);}
+        {overflowList.add(overflowPointer);}
 
     long popOverflowPointer()
-        {return(overflowList.pop());}
+        {return(overflowList.remove(overflowList.size()-1));}
 
     void setOverflowPointerAt(int index, long value)
         {overflowList.set(index, value);}
 
     long removeLastOverflowPointer()
-        {return(overflowList.removeLast());}
+        {return popOverflowPointer();}
 
     long getLastOverflowPointer()
-        {return(overflowList.getLast());}
+        {return overflowList.get(overflowList.size()-1);}
 
     void addToValueList(int index, String value)
         {valueList.add(index, value);}
@@ -72,13 +73,13 @@ class TreeLeaf extends TreeNode {
         {return valueList.get(index);}
 
     void pushToValueList(String value)
-        {valueList.push(value);}
+        {valueList.add(value);}
 
     String popValue()
-        {return valueList.pop();}
+        {return valueList.remove(valueList.size()-1);}
 
     String removeLastValue()
-        {return  valueList.removeLast();}
+        {return  popValue();}
 
     long getNextPagePointer()
         {return(nextPagePointer);}

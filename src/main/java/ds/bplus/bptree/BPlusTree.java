@@ -374,8 +374,6 @@ public class BPlusTree {
      * @return the index of the bound or found key.
      */
     private int binSearchRec(TreeNode n, int l, int r, long key, Rank rank) {
-        int m;
-        long mkey;
 
         if (l > r) {
             switch (rank) {
@@ -387,10 +385,9 @@ public class BPlusTree {
                 default:
                     return l;
             }
-        } else {
-            m = (l + r) / 2;
-            mkey = n.getKeyAt(m);
         }
+        int m = (l+r)/2;
+        long mkey =  n.getKeyAt(m);
 
         if (mkey < key) {
             return binSearchRec(n, m + 1, r, key, rank);
