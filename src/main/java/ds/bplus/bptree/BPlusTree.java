@@ -386,7 +386,7 @@ public class BPlusTree {
                     return l;
             }
         }
-        int m = (l+r)/2;
+        int m = l+(r-l)/2;
         long mkey =  n.getKeyAt(m);
 
         if (mkey < key) {
